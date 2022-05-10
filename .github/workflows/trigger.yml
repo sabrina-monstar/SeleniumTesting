@@ -1,0 +1,38 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Triggar & Wait
+
+on:
+  push:
+    branches:
+     -main
+
+jobs:
+  build1:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger sabrina-monstar repo
+      uses: convictional/trigger-workflow-and-wait@v1.6.1
+      with:
+        owner: soheldef123
+        repo: selenium
+        github_token: ${{ secrets.ACCESS_TOKEN }}
+        github_user: soheldef123
+        workflow_file_name: qa.yml
+        ref: release-branch
+        wait_interval: 10
+        client_payload: '{}'
+        propagate_failure: false
+        trigger_workflow: true
+        wait_workflow: true
+        
+        
+  wait:
+    name: Wait
+    runs-on: ubuntu-latest
+    steps:
+    - name: Do nothing
+      run: sleep 30
